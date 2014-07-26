@@ -27,10 +27,8 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -69,8 +67,8 @@ public class NetherOresCore extends BaseMod
 	@SidedProxy(clientSide = "powercrystals.netherores.net.ClientProxy", serverSide="powercrystals.netherores.net.ServerProxy")
 	public static INetherOresProxy proxy;
 
-	@PreInit
-	public void preInit(FMLPreInitializationEvent evt)
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event)
 	{
 		setConfigFolderBase(evt.getModConfigurationDirectory());
 		
@@ -80,8 +78,8 @@ public class NetherOresCore extends BaseMod
 		loadLang();
 	}
 
-	@Init
-	public void load(FMLInitializationEvent evt)
+	@EventHandler
+	public void load(FMLInitializationEvent event)
 	{
 		for (int i = 0, e = blockNetherOres.length; i < e; ++i)
 		{
@@ -105,8 +103,8 @@ public class NetherOresCore extends BaseMod
 		TickRegistry.registerScheduledTickHandler(new UpdateManager(this), Side.CLIENT);
 	}
 	
-	@PostInit
-	public void postInit(FMLPostInitializationEvent e)
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event)
 	{
 		if(enableStandardFurnaceRecipes.getBoolean(true) || enableInductionSmelterRecipes.getBoolean(true))
 		{
